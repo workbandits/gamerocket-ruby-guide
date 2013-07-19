@@ -1,1 +1,6 @@
- 
+*.gem
+pkg
+nbproject
+test
+env
+spec
