@@ -1,11 +1,10 @@
+require "rubygems"
 require "sinatra"
-require "shotgun"
 require "gamerocket"
 
-GameRocket::Configuration.environment= :development
-GameRocket::Configuration.apiKey= "7b53224077114512ba6684d8b9078df9" #"your_api_key"
-GameRocket::Configuration.secretKey= "4fb6dc47402e4d2dba3d064c5f17b303" #"your_secret_key"
-
+GameRocket::Configuration.environment= :production
+GameRocket::Configuration.apiKey= "<use_your_apikey>"
+GameRocket::Configuration.secretKey= "<use_your_secretkey>"
 
 get "/" do  
   erb :form
@@ -29,14 +28,15 @@ post "/create_player" do
 end
 
 get "/run_action" do
-  result_action = GameRocket::Action.run("test", {
-      :player => "7b53224077114512ba6684d8b9078df9_51decdf0e4b05dc822d901d5"#use player ID
+  result = GameRocket::Action.run("hello-world", {
+      :player => "use_player_id",
+      :name => params[:name]
     })
     
-  if result_action.success?
-    message = "<h1>Success! Action status: #{result_action.status} for player #{result_action.data["player"]["name"]}</h1>"
+  if result.success?
+    message = "<h1>Success! Result: #{result.data["hello"]}</h1>"
   else
-    message = "<h1>Error: #{result_action.error_description}</h1>"
+    message = "<h1>Error: #{result.error_description}</h1>"
   end
     
   erb :response, :locals => {
@@ -45,14 +45,14 @@ get "/run_action" do
 end
 
 get "/unlock_content" do
-  result_purchase = GameRocket::Purchase.buy("unlock-content", {
-      :player => "7b53224077114512ba6684d8b9078df9_51decdf0e4b05dc822d901d5"
+  result = GameRocket::Purchase.buy("unlock-content", {
+      :player => "use_player_id"
     })
     
-  if result_purchase.success?
-    message = "<h1>Success! Purchase result: #{result_purchase.data["message"]}</h1>"
+  if result.success?
+    message = "<h1>Success! Purchase result: #{result.data["message"]}</h1>"
   else
-    message = "<h1>Error: #{result_purchase.error_description}</h1>"
+    message = "<h1>Error: #{result.error_description}</h1>"
   end
     
   erb :response, :locals => {

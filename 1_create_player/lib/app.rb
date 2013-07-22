@@ -1,11 +1,10 @@
+require "rubygems"
 require "sinatra"
-require "shotgun"
 require "gamerocket"
 
-GameRocket::Configuration.environment= :development
-GameRocket::Configuration.apiKey= "7b53224077114512ba6684d8b9078df9" #"your_api_key"
-GameRocket::Configuration.secretKey= "4fb6dc47402e4d2dba3d064c5f17b303" #"your_secret_key"
-
+GameRocket::Configuration.environment= :production
+GameRocket::Configuration.apiKey= "<use_your_apikey>"
+GameRocket::Configuration.secretKey= "<use_your_secretkey>"
 
 get "/" do  
   erb :form
@@ -20,7 +19,6 @@ post "/create_player" do
   if result.success?
     message = "<h1>Success! Player ID: #{result.player.id}</h1>"
   else
-    p result
     message = "<h1>Error: #{result.error_description}</h1>"
   end
   
